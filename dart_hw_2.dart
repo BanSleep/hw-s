@@ -2,14 +2,14 @@ import 'dart:io';
 
 
 void main() {
-  List<double> list = [2, 555, 236455];
+  List<int> list = [2, 555, 236455];
   int counter;
-  for (int i = 0; i < list.length; i++) {
+  for (int number in list) {
     counter = 0;
     do {
-      list[i] /= 10;
+      number ~/= 10;
       counter++;
-    } while (list[i] > 1);
+    } while (number > 0);
     print(counter);
   }
 }
