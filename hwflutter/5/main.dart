@@ -54,7 +54,7 @@ class _switchListState extends State<switchList> {
             mainAxisSize: MainAxisSize.min,
             children: [
               AnimatedContainer(
-                  duration: Duration(seconds: 0),
+                  duration: Duration(milliseconds: 500),
                   width: 150,
                   height: 150,
                   color: _state.colorValue
