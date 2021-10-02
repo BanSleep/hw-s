@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:weather_prac/utilites/forecast_util.dart';
+import 'package:weather_prac_with_api/utilities/forecast_util.dart';
 
 Widget forecastCard(AsyncSnapshot snapshot, int index) {
   var dayOfWeek = '';
   DateTime date =
-      DateTime.fromMillisecondsSinceEpoch(snapshot.data!.list[index].dt * 1000);
+  DateTime.fromMillisecondsSinceEpoch(snapshot.data!.list[index].dt * 1000);
   var fullDate = Util.getFormattedDate(date);
   dayOfWeek = fullDate.split(',')[0];
   var tempMin = snapshot.data!.list[index].temp.min.toStringAsFixed(0);
@@ -35,7 +35,7 @@ Widget forecastCard(AsyncSnapshot snapshot, int index) {
               Row(
                 children: [
                   Padding(
-                      padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
                       '$tempMin °C',
                       style: TextStyle(
