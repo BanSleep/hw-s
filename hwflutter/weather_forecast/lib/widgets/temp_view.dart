@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weather_prac/models/weatherForecastDaily.dart';
+  import 'package:weather_prac_with_api/models/weather_forecast_daily.dart';
 
 class TempView extends StatelessWidget {
   final AsyncSnapshot<WeatherForecast> snapshot;
@@ -29,8 +29,8 @@ class TempView extends StatelessWidget {
               Text(
                 '$descriptions',
                 style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.black87
+                    fontSize: 18,
+                    color: Colors.black87
                 ),
               )
             ],
