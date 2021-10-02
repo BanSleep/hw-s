@@ -1,46 +1,39 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:weather_prac/models/weatherForecastDaily.dart';
-import 'package:weather_prac/utilites/Constants.dart';
+import 'package:eticon_api/eticon_api.dart';
 import 'package:http/http.dart' as http;
-import 'package:weather_prac/utilites/location.dart';
-
 class WeatherApi {
-  Future<WeatherForecast> fetchWeatherForecast(
-      {String? cityName, bool? isCity}) async {
-
-    Location location = Location();
-    await location.getCurrentLocation();
-    Map<String, String?> parameters;
-    if(isCity == true) {
-      var queryParameters = {
-        'appid': Constants.WEATHER_APP_ID,
-        'units': 'metric',
-        'q': cityName
-      };
-      parameters =  queryParameters;
-    } else {
-      var queryParameters = {
-        'appid': Constants.WEATHER_APP_ID,
-        'units': 'metric',
-        'lat': location.latitude.toString(),
-        'lon': location.longitute.toString()
-      };
-      parameters = queryParameters;
+  static const String WEATHER_URL_DOMAIN = 'http://api.openweathermap.org/data/2.5/forecast/daily?q=London&';
+  Future<Map<String, dynamic>> getRequest(
+      {required String method, bool isAuth = false, bool testMode = false, Map<
+          String,
+          dynamic>? query}) async {
+    List<String> _queryList = [];
+    if (query != null) {
+      query.forEach((key, value) {
+        if (value is List) {
+          for (var el in value)
+            _queryList.add('$key = $el');
+        } else
+          _queryList.add('$key = $value');
+      });
     }
-
-    var uri = Uri.https(Constants.WEATHER_URL_DOMAIN,
-        Constants.WEATHER_FORECAST_PATH, parameters);
-    log('request: ${uri.toString()}');
-
-    var response = await http.get(uri);
-    print('response: ${response.body}');
-
-    if (response.statusCode == 200) {
-      return WeatherForecast.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Error response');
+    if (testMode) log(_queryList.toString(), name: 'API TEST GET: Query List');
+    Uri url = Uri.parse(
+        WEATHER_URL_DOMAIN + '$method?${_queryList.join(("&"))}');
+    if (testMode) log(_queryList.toString(), name: 'API TEST GET: URL');
+    var response = await http.get(url);
+    if(response.statusCode != 200) {
+      throw APIException(0);
     }
+    var responseParams = json.decode(response.body);
+    if(responseParams is! Map) {
+      if(testMode) {
+        log('Response body is not a Map');
+      }
+      Map<String, dynamic> res = {'key' : responseParams};
+      return res;
+    }else return Map<String, dynamic>.from(responseParams);
   }
 }
