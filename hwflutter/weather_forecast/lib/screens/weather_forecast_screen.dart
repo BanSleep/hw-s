@@ -1,12 +1,14 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:weather_prac/api/weather_api.dart';
-import 'package:weather_prac/models/weatherForecastDaily.dart';
-import 'package:weather_prac/screens/city_screen.dart';
-import 'package:weather_prac/widgets/bottom_list_view.dart';
-import 'package:weather_prac/widgets/city_view.dart';
-import 'package:weather_prac/widgets/detail_view.dart';
-import 'package:weather_prac/widgets/temp_view.dart';
+import 'package:weather_prac_with_api/api/weather_api.dart';
+import 'package:weather_prac_with_api/models/weather_forecast_daily.dart';
+import 'package:weather_prac_with_api/widgets/bottom_list_view.dart';
+import 'package:weather_prac_with_api/widgets/city_view.dart';
+import 'package:weather_prac_with_api/widgets/detail_view.dart';
+import 'package:weather_prac_with_api/widgets/temp_view.dart';
+
+import 'city_screen.dart';
 
 class WeatherForecastScreen extends StatefulWidget {
 
@@ -18,7 +20,7 @@ class WeatherForecastScreen extends StatefulWidget {
 }
 
 class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
-  late Future<WeatherForecast> forecastObject;
+  late Map<String, dynamic> forecastObject;
   late String _cityName;
   //late String _cityName;
 
@@ -26,7 +28,7 @@ class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
   void initState() {
 
     if(widget.locationWeather != null) {
-      forecastObject = WeatherApi().fetchWeatherForecast();
+      forecastObject = WeatherApi().getRequest(method: 'cnt=7&appid=1369dd6b5ae78fc9952261ab9aa236b4', testMode: true) as Map<String, dynamic>;
     }
     super.initState();
 
@@ -41,14 +43,14 @@ class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
       appBar: AppBar(
         backgroundColor: Colors.black87,
         title: Text(
-          'Weather Forecast'
+            'Weather Forecast'
         ),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.my_location),
           onPressed: () {
             setState(() {
-              forecastObject = WeatherApi().fetchWeatherForecast();
+              forecastObject = WeatherApi().getRequest(method: 'cnt=7&appid=1369dd6b5ae78fc9952261ab9aa236b4') as Map<String, dynamic> ;
             });
 
           },
@@ -61,7 +63,7 @@ class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
             if(tappedName != null) {
               setState(() {
                 _cityName = tappedName;
-                forecastObject = WeatherApi().fetchWeatherForecast(cityName: _cityName, isCity: true);
+                forecastObject = WeatherApi().getRequest(method: 'cnt=7&appid=1369dd6b5ae78fc9952261ab9aa236b4') as Map<String, dynamic> ;
               });
             }
           }, icon: Icon(Icons.location_city))
@@ -71,7 +73,6 @@ class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
         children: [
           Container(
             child: FutureBuilder<WeatherForecast>(
-              future: forecastObject,
               builder: (context, snapshot) {
                 if(snapshot.hasData) {
                   return Column(
