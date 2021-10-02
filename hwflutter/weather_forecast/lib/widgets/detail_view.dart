@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:weather_prac/models/weatherForecastDaily.dart';
-import 'package:weather_prac/utilites/forecast_util.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'package:weather_prac_with_api/models/weather_forecast_daily.dart';
+import 'package:weather_prac_with_api/utilities/forecast_util.dart';
 
 class DetailView extends StatelessWidget {
   final AsyncSnapshot<WeatherForecast> snapshot;
