@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:weather_prac/api/weather_api.dart';
-import 'package:weather_prac/screens/weather_forecast_screen.dart';
+import 'package:weather_prac_with_api/api/weather_api.dart';
+import 'package:weather_prac_with_api/screens/weather_forecast_screen.dart';
 
 class LocationScreen extends StatefulWidget {
   const LocationScreen({Key? key}) : super(key: key);
@@ -13,7 +13,7 @@ class LocationScreen extends StatefulWidget {
 class _LocationScreenState extends State<LocationScreen> {
 
   void getLocationData() async {
-    var weatherInfo = await WeatherApi().fetchWeatherForecast();
+    var weatherInfo = WeatherApi().getRequest(method: 'cnt=7&appid=1369dd6b5ae78fc9952261ab9aa236b4', isAuth: true, testMode: true);
     if(weatherInfo == null) {
       print('WeatherInfo was null : $weatherInfo');
       return;
